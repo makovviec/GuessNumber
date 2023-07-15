@@ -9,12 +9,17 @@ public class GuessMeTester {
         System.out.println("Welcome!");
         System.out.println("This is a challenge called \"Guess Number\".");
         System.out.println("############################################");
-        System.out.println("Please choose a number length you wish to guess.");
-        int length = scanner.nextInt();
-        scanner.nextLine();
+        int length = getLength();
         int generatedNumber = generateNumber(length);
         System.out.println(hashUnknownDigits(generatedNumber));
         System.out.println(generatedNumber);
+    }
+
+    private static int getLength() {
+        System.out.println("Please choose a number length you wish to guess.");
+        int length = scanner.nextInt();
+        scanner.nextLine();
+        return length;
     }
 
     private static String hashUnknownDigits(int generatedNumber) {
