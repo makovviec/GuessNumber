@@ -13,4 +13,8 @@ public class ConsolePrinter {
         System.out.println(test);
     }
 
+    public void spacer(String text) {
+        System.out.print(text);
+    }
+
 }

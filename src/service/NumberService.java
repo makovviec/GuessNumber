@@ -15,6 +15,7 @@ public class NumberService {
     public NumberService() {
         this.NUMBER = generateNumber();
         this.array = numberToList();
+
     }
 
     private int generateNumber() {
@@ -43,8 +44,12 @@ public class NumberService {
         return Integer.toString(NUMBER);
     }
 
-    public String getNUMBER() {
+    public String getHashedNUMBER() {
         return hashUnknownDigits();
+    }
+
+    public int getNUMBER() {
+        return NUMBER;
     }
 
     public List<Digit> getArray() {
@@ -60,6 +65,15 @@ public class NumberService {
     public boolean allGuessed() {
         return array.stream()
                 .allMatch(digit -> digit.isGuessed());
+    }
+
+    public boolean allHidden() {
+        if (array == null) {
+            return false;
+        } else {
+            return array.stream()
+                    .allMatch(digit -> digit.isGuessed() == false);
+        }
     }
 
     @Override

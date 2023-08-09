@@ -1,16 +1,17 @@
 import exceptions.NoSuchOptionException;
 import io.ConsolePrinter;
+import model.Digit;
 import model.Menu;
 import model.MyInput;
 import service.GameService;
-import service.NumberService;
 
 import java.util.InputMismatchException;
+import java.util.List;
 
 public class MainLoop {
     private final ConsolePrinter printer = new ConsolePrinter();
 //    private NumberService numberService = new NumberService();
-    private GameService gameService = new GameService();
+    private GameService gameService;
 
     public void controlLoop() {
         Menu menu;
@@ -20,18 +21,40 @@ public class MainLoop {
             menu = getMenuOptions();
             switch (menu) {
 
-                case ASSIGN_POSITION -> {
-                }
-                case GIVE_DIGIT -> giveDigit();
-                case NEW_GAME -> {
-                }
                 case EXIT -> exitOption();
+                case NEW_GAME -> newGame();
+                case GUESS_NUMBER -> guessNumber();
+                case GET_DIGIT -> getDigit();
             }
             printNumber();
         } while (menu.getValue() != Menu.EXIT.getValue());
     }
 
-    private void giveDigit() {
+    private void newGame() {
+        this.gameService = new GameService();
+    }
+
+    private void guessNumber() {
+        var checkNumber = MyInput.getInt("This is your chance!!! give whole " + gameService.getHashedNUMBER().length() + " digit number:" );
+        if (gameService.getNUMBER() == checkNumber) {
+            bravo();
+        } else {
+            niceTry();
+        }
+    }
+
+    private void bravo() {
+        List<Digit> array = gameService.getArray();
+        for (Digit digit : array) {
+            digit.setGuessed(true);
+        }
+        printer.printLine("YOU WON!!!");
+    }
+
+    private void niceTry() {
+    }
+
+    private void getDigit() {
         var checkDigit = MyInput.getInt("Type digit, that will be checked, if exists in a number");
         if (gameService.checkDigit(checkDigit)) {
             gameService.tryGuessPosition();
@@ -40,7 +63,7 @@ public class MainLoop {
 
     private void printNumber() {
         printer.printLine("===YOUR NUMBER===");
-        printer.printLine(gameService.getNUMBER());
+        printer.printLine("### " + gameService.getHashedNUMBER() + " ###");
         printer.printLine("=================");
     }
 
@@ -69,7 +92,11 @@ public class MainLoop {
     private void printOptions() {
         printer.printLine("=== Choose an action: ===");
         for (Menu value : Menu.values()) {
-            printer.printLine(value.toString());
+            if ((gameService == null || gameService.allGuessed()) && (value.getValue() == 1 || value.getValue() == 2)) {
+                printer.spacer("");
+            } else {
+                printer.printLine(value.toString());
+            }
         }
     }
 }

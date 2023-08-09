@@ -12,7 +12,7 @@ public class GameService extends NumberService {
             throw new IllegalArgumentException("Please provide only one digit");
         }
         for (Digit oDigit : getArray()) {
-            if (oDigit.getDIGIT() == digit) {
+            if (oDigit.getDIGIT() == digit && !oDigit.isGuessed()) {
                 this.guessDigit = digit;
                 return true;
             }
@@ -21,11 +21,11 @@ public class GameService extends NumberService {
     }
 
     public void tryGuessPosition() {
-        var length = String.valueOf(getNUMBER()).length();
+        var length = String.valueOf(getHashedNUMBER()).length();
 
         System.out.println("Found a Digit!");
         System.out.println("------------------------------");
-        System.out.println("Your Number:\t" + getNUMBER());
+        System.out.println("Your Number:\t" + getHashedNUMBER());
         System.out.print("Position: \t\t");
         for (int i = 0; i < length; i++) {
             System.out.print(i);

@@ -4,8 +4,8 @@ import exceptions.NoSuchOptionException;
 
 public enum Menu {
     EXIT(0, "END Game!"),
-    ASSIGN_POSITION(1, "Assign position"),
-    GIVE_DIGIT(2, "Try guess one digit"),
+    GUESS_NUMBER(1, "Try guess whole number"),
+    GET_DIGIT(2, "Try guess one digit"),
     NEW_GAME(3, "New game");
 
     private final int value;
